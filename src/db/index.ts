@@ -15,4 +15,5 @@ export function getDb(): Firestore {
 
 export const Collections = {
   USERS: "users",
+  CLIENTS: "clients",
 } as const
