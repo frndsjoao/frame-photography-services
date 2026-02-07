@@ -8,6 +8,10 @@ export function created(body?: Record<string, unknown>): HttpResponse {
   return { statusCode: 201, body }
 }
 
+export function noContent(): HttpResponse {
+  return { statusCode: 204 }
+}
+
 export function badRequest(body?: Record<string, unknown>): HttpResponse {
   return { statusCode: 400, body }
 }

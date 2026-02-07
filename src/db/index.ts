@@ -1,19 +1,20 @@
-import { initializeApp, getApps } from "firebase-admin/app"
-import { getFirestore, Firestore } from "firebase-admin/firestore"
+import { initializeApp, getApps } from "firebase-admin/app";
+import { getFirestore, Firestore } from "firebase-admin/firestore";
 
-let db: Firestore | undefined
+let db: Firestore | undefined;
 
 export function getDb(): Firestore {
   if (!db) {
     if (getApps().length === 0) {
-      initializeApp()
+      initializeApp();
     }
-    db = getFirestore()
+    db = getFirestore();
   }
-  return db
+  return db;
 }
 
 export const Collections = {
   USERS: "users",
   CLIENTS: "clients",
-} as const
+  PACKAGES: "packages",
+} as const;
