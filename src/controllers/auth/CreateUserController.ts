@@ -19,7 +19,7 @@ export class CreateUserController {
         .set({
           name: data.name,
           email: data.email,
-          avatar: data.email ?? null,
+          photoURL: data.photoURL ?? null,
           createdAt: new Date(),
           updatedAt: new Date(),
         });
