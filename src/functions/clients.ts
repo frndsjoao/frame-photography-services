@@ -4,8 +4,11 @@ import { parseResponse } from "../utils/parseResponse";
 import { CreateClientController } from "../controllers/clients/CreateClientController";
 import { ListClientsController } from "../controllers/clients/ListClientsController";
 import { GetClientController } from "../controllers/clients/GetClientController";
+import { DeleteClientController } from "../controllers/clients/DeleteClientController";
 import { verifyAuth } from "../middleware/auth";
 import { handleError } from "../middleware/errorHandler";
+import { methodHandler } from "../utils/methodHandler";
+import { UpdateClientController } from "../controllers/clients/UpdateClientController";
 
 export const clients = onRequest({ cors: true }, async (req, res) => {
   try {
@@ -16,31 +19,19 @@ export const clients = onRequest({ cors: true }, async (req, res) => {
     const clientId = req.path.split("/")[1];
 
     if (clientId) {
-      if (req.method !== "GET") {
-        res.status(405).json({
-          error: { code: "METHOD_NOT_ALLOWED", message: "Only GET is allowed for /clients/:id" },
-        });
-        return;
-      }
-
       request.params = { id: clientId };
-      const response = await GetClientController.handle(request);
-      parseResponse(res, response);
-      return;
-    }
-
-    if (req.method !== "GET" && req.method !== "POST") {
-      res.status(405).json({
-        error: { code: "METHOD_NOT_ALLOWED", message: "Only GET and POST are allowed" },
+      await methodHandler(req, res, {
+        GET: () => GetClientController.handle(request),
+        PATCH: () => UpdateClientController.handle(request),
+        DELETE: () => DeleteClientController.handle(request),
       });
       return;
     }
 
-    const response = req.method === "GET"
-      ? await ListClientsController.handle(request)
-      : await CreateClientController.handle(request);
-
-    parseResponse(res, response);
+    await methodHandler(req, res, {
+      GET: () => ListClientsController.handle(request),
+      POST: () => CreateClientController.handle(request),
+    });
   } catch (error) {
     console.error("CLIENTS endpoint error:", error);
     const errorResponse = handleError(error, req.path);

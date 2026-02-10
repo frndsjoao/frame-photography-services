@@ -19,7 +19,7 @@ export class CreatePhotographerController {
         .set({
           name: data.name,
           email: data.email,
-          avatarURL: data.photoURL ?? null,
+          photoURL: data.photoURL ?? null,
           documentType: null,
           document: null,
           status: "active",

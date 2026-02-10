@@ -13,3 +13,7 @@ export const createClientSchema = z.object({
 });
 
 export type CreateClientInput = z.infer<typeof createClientSchema>;
+
+export const updateClientSchema = createClientSchema.partial();
+
+export type UpdateClientInput = z.infer<typeof updateClientSchema>;
