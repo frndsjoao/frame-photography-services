@@ -1,15 +1,15 @@
 import { getDb, Collections } from "../../db";
 import { DatabaseError } from "../../errors/AppError";
-import { createUserSchema } from "../../schemas/userSchema";
+import { createPhotographerSchema } from "../../schemas/photographerSchema";
 import { ProtectedHttpRequest, HttpResponse } from "../../types/Http";
 import { created } from "../../utils/http";
 
-export class CreateUserController {
+export class CreatePhotographerController {
   static async handle({
     body,
     userId,
   }: ProtectedHttpRequest): Promise<HttpResponse> {
-    const data = createUserSchema.parse(body);
+    const data = createPhotographerSchema.parse(body);
     const db = getDb();
 
     try {
@@ -19,14 +19,18 @@ export class CreateUserController {
         .set({
           name: data.name,
           email: data.email,
-          photoURL: data.photoURL ?? null,
+          avatarURL: data.photoURL ?? null,
+          documentType: null,
+          document: null,
+          status: "active",
+          cashFlowMode: null,
           createdAt: new Date(),
           updatedAt: new Date(),
         });
 
       return created({ id: userId });
     } catch (err) {
-      throw new DatabaseError("Failed to create user", err);
+      throw new DatabaseError("Failed to create photographer", err);
     }
   }
 }
