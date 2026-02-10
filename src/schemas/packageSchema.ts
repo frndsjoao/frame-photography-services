@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const createPackageSchema = z.object({
   name: z.string().min(1, "Package name is required"),
-  price: z.number().min(1, "Price of the package is required"),
+  basePrice: z.number().min(1, "Price of the package is required"),
   description: z.string().optional(),
 });
 
