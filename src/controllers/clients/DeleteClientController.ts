@@ -13,7 +13,7 @@ export class DeleteClientController {
     userId,
   }: ProtectedHttpRequest): Promise<HttpResponse> {
     const db = getDb();
-    const clientRef = await db.collection(Collections.CLIENTS).doc(params.id);
+    const clientRef = db.collection(Collections.CLIENTS).doc(params.id);
     const clientDoc = await clientRef.get();
 
     if (!clientDoc.exists) {

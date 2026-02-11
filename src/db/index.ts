@@ -17,4 +17,6 @@ export const Collections = {
   USERS: "users",
   CLIENTS: "clients",
   PACKAGES: "packages",
+  FORMS: "forms",
+  PAYMENT_PLANS: "paymentPlans",
 } as const;

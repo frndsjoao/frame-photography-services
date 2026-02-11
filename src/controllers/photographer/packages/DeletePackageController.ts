@@ -13,7 +13,7 @@ export class DeletePackageController {
     userId,
   }: ProtectedHttpRequest): Promise<HttpResponse> {
     const db = getDb();
-    const packageRef = await db.collection(Collections.PACKAGES).doc(params.id);
+    const packageRef = db.collection(Collections.PACKAGES).doc(params.id);
     const packageDoc = await packageRef.get();
 
     if (!packageDoc.exists) {

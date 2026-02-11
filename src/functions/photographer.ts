@@ -5,6 +5,8 @@ import { CreatePhotographerController } from "../controllers/photographer/Create
 import { GetPhotographerController } from "../controllers/photographer/GetPhotographerController";
 import { UpdatePhotographerController } from "../controllers/photographer/UpdatePhotographerController";
 import { handlePackages } from "./photographer/packages";
+import { handleForms } from "./photographer/forms";
+import { handlePaymentPlan } from "./photographer/paymentPlan";
 import { verifyAuth } from "../middleware/auth";
 import { handleError } from "../middleware/errorHandler";
 import { methodHandler } from "../utils/methodHandler";
@@ -19,6 +21,18 @@ export const photographer = onRequest({ cors: true }, async (req, res) => {
     // /photographer/packages or /photographer/packages/:id
     if (pathParts[0] === "packages") {
       await handlePackages(req, res, request, pathParts[1]);
+      return;
+    }
+
+    // /photographer/forms or /photographer/forms/:id
+    if (pathParts[0] === "forms") {
+      await handleForms(req, res, request, pathParts[1]);
+      return;
+    }
+
+    // /photographer/payment-plan
+    if (pathParts[0] === "payment-plan") {
+      await handlePaymentPlan(req, res, request);
       return;
     }
 

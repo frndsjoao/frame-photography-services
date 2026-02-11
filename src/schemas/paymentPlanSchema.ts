@@ -8,7 +8,7 @@ export const createPaymentPlanSchema = z.object({
   depositPercentage: z.number().min(0).max(100).optional(),
 
   // just for INSTALLMENTS
-  installmentsCount: z.number().min(1).optional(),
+  maxInstallments: z.number().min(1).optional(),
 
   active: z.boolean().default(true),
 });

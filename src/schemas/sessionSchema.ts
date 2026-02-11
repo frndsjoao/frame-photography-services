@@ -20,11 +20,17 @@ export const createSessionSchema = z.object({
     .optional(),
 
   finalPrice: z.number().optional(),
-  paymentPlanId: z.string().optional(),
   paymentPlanSnapshot: z
     .object({
       type: z.nativeEnum(PaymentPlanType),
+      depositPercentage: z.number().optional(),
+      maxInstallments: z.number().min(1),
+    })
+    .optional(),
+  paymentSnapshot: z
+    .object({
       depositAmount: z.number().optional(),
+      depositPercentage: z.number().optional(),
       finalAmount: z.number(),
       installmentsCount: z.number().min(1),
       installmentValue: z.number(),
