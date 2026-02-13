@@ -2,7 +2,7 @@ import { z } from "zod";
 import { PaymentPlanType } from "../types/PaymentPlanType";
 import { SessionStatus } from "../types/SessionStatus";
 
-export const createSessionSchema = z.object({
+const sessionBaseSchema = z.object({
   clientId: z.string(),
   source: z.enum(["FORM", "MANUAL"]),
   status: z.nativeEnum(SessionStatus),
@@ -41,8 +41,29 @@ export const createSessionSchema = z.object({
   notes: z.string().optional(),
 });
 
+const installmentsRefinement = {
+  validate: (data: { paymentPlanSnapshot?: { maxInstallments?: number }; paymentSnapshot?: { installmentsCount?: number } }) => {
+    if (data.paymentPlanSnapshot?.maxInstallments && data.paymentSnapshot?.installmentsCount) {
+      return data.paymentSnapshot.installmentsCount <= data.paymentPlanSnapshot.maxInstallments;
+    }
+    return true;
+  },
+  params: {
+    message: "installmentsCount cannot exceed maxInstallments",
+    path: ["paymentSnapshot", "installmentsCount"] as string[],
+  },
+};
+
+export const createSessionSchema = sessionBaseSchema.refine(
+  installmentsRefinement.validate,
+  installmentsRefinement.params,
+);
+
 export type CreateSessionInput = z.infer<typeof createSessionSchema>;
 
-export const updateSessionSchema = createSessionSchema.partial();
+export const updateSessionSchema = sessionBaseSchema.partial().refine(
+  installmentsRefinement.validate,
+  installmentsRefinement.params,
+);
 
 export type UpdateSessionInput = z.infer<typeof updateSessionSchema>;

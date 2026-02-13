@@ -19,4 +19,5 @@ export const Collections = {
   PACKAGES: "packages",
   FORMS: "forms",
   PAYMENT_PLANS: "paymentPlans",
+  SESSIONS: "sessions",
 } as const;
