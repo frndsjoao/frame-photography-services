@@ -17,7 +17,7 @@ export async function handleForms(
     request.params = { id: formId };
     await methodHandler(req, res, {
       GET: () => GetFormController.handle(request),
-      PATCH: () => UpdateFormController.handle(request),
+      PUT: () => UpdateFormController.handle(request),
       DELETE: () => DeleteFormController.handle(request),
     });
     return;
